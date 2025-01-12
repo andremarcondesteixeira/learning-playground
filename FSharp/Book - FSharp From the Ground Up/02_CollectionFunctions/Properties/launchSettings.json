@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "02_CollectionFunctions": {
+      "commandName": "Project",
+      "commandLineArgs": "F:\\repos\\FSharpFromTheGroundUp\\02_CollectionFunctions\\StudentScoresNA.txt"
+    }
+  }
+}

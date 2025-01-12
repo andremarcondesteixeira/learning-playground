@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batch remove event listeners</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', init);
+
+        function init() {
+            const abortController = new AbortController();
+            const subjectBtn = document.querySelector('#subject-btn');
+            const removeEventListenersBtn = document.querySelector('#remove-event-listeners-btn');
+
+            for (let i = 0; i < 3; i++) {
+                subjectBtn.addEventListener('click', () => alert(`listener ${i + 1}`), {
+                    signal: abortController.signal,
+                });
+            }
+
+            removeEventListenersBtn.addEventListener('click', () => {
+                abortController.abort();
+            });
+        }
+    </script>
+</head>
+<body>
+    <button type="button" id="subject-btn">Click me!</button>
+    <button type="button" id="remove-event-listeners-btn">
+        Batch remove event listeners
+    </button>
+</body>
+</html>
