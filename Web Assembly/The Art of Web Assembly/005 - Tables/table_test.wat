@@ -7,6 +7,7 @@
     
     (type $returns_i32 (func (result i32)))
     
+    (global $runs i32 (i32.const 100000000))
     (global $inc_ptr i32 (i32.const 0))
     (global $dec_ptr i32 (i32.const 1))
     (global $wasm_inc_ptr i32 (i32.const 2))
@@ -16,14 +17,14 @@
     (func (export "js_table_test")
         (loop $inc_cycle
             (call_indirect (type $returns_i32) (global.get $inc_ptr))
-            i32.const 4000000
+            (global.get $runs)
             i32.le_u
             br_if $inc_cycle
         )
 
         (loop $dec_cycle
             (call_indirect (type $returns_i32) (global.get $dec_ptr))
-            i32.const 4000000
+            (global.get $runs)
             i32.le_u
             br_if $dec_cycle
         )
@@ -33,14 +34,14 @@
     (func (export "js_import_test")
         (loop $inc_cycle
             call $js_increment
-            i32.const 4000000
+            (global.get $runs)
             i32.le_u
             br_if $inc_cycle
         )
 
         (loop $dec_cycle
             call $js_decrement
-            i32.const 4000000
+            (global.get $runs)
             i32.le_u
             br_if $dec_cycle
         )
@@ -50,14 +51,14 @@
     (func (export "wasm_table_test")
         (loop $inc_cycle
             (call_indirect (type $returns_i32) (global.get $wasm_inc_ptr))
-            i32.const 4000000
+            (global.get $runs)
             i32.le_u
             br_if $inc_cycle
         )
 
         (loop $dec_cycle
             (call_indirect (type $returns_i32) (global.get $wasm_dec_ptr))
-            i32.const 4000000
+            (global.get $runs)
             i32.le_u
             br_if $dec_cycle
         )
@@ -67,14 +68,14 @@
     (func (export "wasm_import_test")
         (loop $inc_cycle
             call $wasm_increment
-            i32.const 4000000
+            (global.get $runs)
             i32.le_u
             br_if $inc_cycle
         )
 
         (loop $dec_cycle
             call $wasm_decrement
-            i32.const 4000000
+            (global.get $runs)
             i32.le_u
             br_if $dec_cycle
         )
