@@ -5,10 +5,6 @@ Once a propagator is run, by default it will not run again unless it gets queued
 Every propagator that is queued will eventually run.
 */
 
-class Propagator {
-
-}
-
 /**
  * A Cell does not have any removeContent or alterContent methods. That is on purpose.
  * Cells hold state and a list of every propagator watching them.
@@ -16,7 +12,7 @@ class Propagator {
  */
 class Cell {
     #content: unknown = undefined;
-    #neighbors: Propagator[] = [];
+    #neighbors: Cell[] = [];
 
     /**
      * Extracts the cell's current content
@@ -25,7 +21,7 @@ class Cell {
         return this.#content;
     }
 
-    get neighbors(): Propagator[] {
+    get neighbors(): Cell[] {
         return [...this.#neighbors];
     }
 
@@ -49,19 +45,25 @@ class Cell {
         throw new Error("Method not implemented.");
     }
 
-    #alertPropagator(neighbor: Propagator) {
+    #alertPropagator(neighbor: Cell) {
         throw new Error("Method not implemented.");
     }
 
     /**
      * Asserts that a propagator should be queued when the cell's content changes
      */
-    newNeighbor(neighbor: Propagator): void {
+    newNeighbor(neighbor: Cell): void {
         if (!this.neighbors.includes(neighbor)) {
             this.neighbors.push(neighbor);
             this.#alertPropagator(neighbor);
         }
     }
+}
+
+function propagator(neighbors: Cell[], toDo: Cell) {
+    neighbors.forEach((cell) => {
+        cell.newNeighbor(toDo);
+    });
 }
 
 let fahrenheitCell = new Cell();

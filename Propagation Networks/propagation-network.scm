@@ -57,6 +57,14 @@
     )
 )
 
+(define (propagator neighbors to-do)
+    (for-each
+        (lambda (cell) (new-neighbor! cell to-do)) ;; apply this function
+        (listify neighbors) ;; for each element in this list
+    )
+    (alert-propagator to-do)
+)
+
  (define (fahrenheit->celsius f c) (
     let (
         (thirty-two (make-cell))
