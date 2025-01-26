@@ -15,14 +15,14 @@ class Propagator {
  * When the cell’s state changes, it notifies all the propagators.
  */
 class Cell {
-    #content: unknown[] = [undefined];
+    #content: unknown = undefined;
     #neighbors: Propagator[] = [];
 
     /**
      * Extracts the cell's current content
      */
     get content(): unknown {
-        return this.#content[this.#content.length - 1];
+        return this.#content;
     }
 
     get neighbors(): Propagator[] {
@@ -38,7 +38,7 @@ class Cell {
         }
 
         if (this.content === undefined) {
-            this.#content.push(increment);
+            this.#content = increment;
             this.#alertPropagators();
         } else if (this.content !== increment) {
             throw new Error("Ack! Inconsistency!");
@@ -56,7 +56,7 @@ class Cell {
     /**
      * Asserts that a propagator should be queued when the cell's content changes
      */
-    addNeighbor(neighbor: Propagator): void {
+    newNeighbor(neighbor: Propagator): void {
         if (!this.neighbors.includes(neighbor)) {
             this.neighbors.push(neighbor);
             this.#alertPropagator(neighbor);
