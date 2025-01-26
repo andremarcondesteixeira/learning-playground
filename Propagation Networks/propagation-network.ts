@@ -5,38 +5,62 @@ Once a propagator is run, by default it will not run again unless it gets queued
 Every propagator that is queued will eventually run.
 */
 
+class Propagator {
+
+}
+
 /**
  * A Cell does not have any removeContent or alterContent methods. That is on purpose.
  * Cells hold state and a list of every propagator watching them.
  * When the cell’s state changes, it notifies all the propagators.
  */
 class Cell {
-    #content: any[] = [undefined];
-    #neighbors: unknown[] = [];
+    #content: unknown[] = [undefined];
+    #neighbors: Propagator[] = [];
 
     /**
      * Extracts the cell's current content
      */
-    get content() {
+    get content(): unknown {
         return this.#content[this.#content.length - 1];
     }
 
-    get neighbors() {
+    get neighbors(): Propagator[] {
         return [...this.#neighbors];
     }
 
     /**
      * Adds some content to the cell
      */
-    addContent(value: any) {
-        this.#content.push(value);
+    addContent(increment: unknown): void {
+        if (increment === undefined) {
+            return;
+        }
+
+        if (this.content === undefined) {
+            this.#content.push(increment);
+            this.#alertPropagators();
+        } else if (this.content !== increment) {
+            throw new Error("Ack! Inconsistency!");
+        }
+    }
+
+    #alertPropagators(): void {
+        throw new Error("Method not implemented.");
+    }
+
+    #alertPropagator(neighbor: Propagator) {
+        throw new Error("Method not implemented.");
     }
 
     /**
      * Asserts that a propagator should be queued when the cell's content changes
      */
-    newNeighbor(neighbor: unknown) {
-        this.#neighbors.push(neighbor);
+    addNeighbor(neighbor: Propagator): void {
+        if (!this.neighbors.includes(neighbor)) {
+            this.neighbors.push(neighbor);
+            this.#alertPropagator(neighbor);
+        }
     }
 }
 
@@ -44,8 +68,7 @@ let fahrenheitCell = new Cell();
 let celsiusCell = new Cell();
 fahrenheitToCelsius(fahrenheitCell, celsiusCell);
 fahrenheitCell.addContent(77); // 77 will never be forgotten by the cell
-const content = celsiusCell.content();
-console.log(content);
+console.log(celsiusCell.content);
 
 function fahrenheitToCelsius(fahrenheitCell: Cell, celsiusCell: Cell) {
     let thirtyTwo = new Cell();
