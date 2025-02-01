@@ -65,6 +65,38 @@
     (alert-propagator to-do)
 )
 
+(define (function->propagator-constructor f)
+    (lambda cells
+        (let
+            (
+                (output (car (last-pair cells)))
+                (inputs (except-last-pair cells))
+            )
+            (propagator  ; The output isn’t a neighbor!
+                inputs
+                (lambda ()
+                    (add-content output (apply f (map content inputs)))
+                )
+            )
+        )
+    )
+)
+
+(define (handling-nothings f)
+    (lambda args
+        (if (any nothing? args)
+            nothing
+            (apply f args)
+        )
+    )
+)
+
+(define adder (function->propagator-constructor (handling-nothings +)))
+(define subtractor (function->propagator-constructor (handling-nothings -)))
+(define multiplier (function->propagator-constructor (handling-nothings *)))
+(define divider (function->propagator-constructor (handling-nothings /)))
+(define (constant value) (function->propagator-constructor (lambda () value)))
+
  (define (fahrenheit->celsius f c) (
     let (
         (thirty-two (make-cell))

@@ -45,7 +45,7 @@ class Cell {
         throw new Error("Method not implemented.");
     }
 
-    #alertPropagator(neighbor: Cell) {
+    #alertPropagator(cell: Cell) {
         throw new Error("Method not implemented.");
     }
 
@@ -90,14 +90,18 @@ function constant(cell: Cell, value: any) {
     cell.addContent(value);
 }
 
-function subtractor(a, b, c) {
+function adder(a: unknown, b: unknown, c: unknown) {
     // TODO
 }
 
-function multiplier(a, b, c) {
+function subtractor(a: unknown, b: unknown, c: unknown) {
     // TODO
 }
 
-function divider(a, b, c) {
+function multiplier(a: unknown, b: unknown, c: unknown) {
+    // TODO
+}
+
+function divider(a: unknown, b: unknown, c: unknown) {
     // TODO
 }
