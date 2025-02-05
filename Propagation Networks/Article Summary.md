@@ -38,7 +38,20 @@ General purpose propagation generalizes expressions (much like expressions gener
 
 Computation is arranged as a network of Propagators connected through Cells.
 
-Propagators make computations and propagate data to the netowrk through Cells.
+Propagators make computations and propagate data to the netowrk through Cells, by storing and reading data into and from Cells.
 
-Cells store data received from Propagators.
+Cells store data received from Propagators. Cells are responsible for keeping their own internal state consistent.
 
+## 2.2 We Simulate the Network until Quiescence
+
+The network will be computed until there is nothing more to do.
+
+## 2.3 Cells Accumulate Information
+
+Cells progressively accumulate information about a value, instead of just storing the value itself. Note that this does not mean "storing multiple values", but "accumulating partial information until the value is known".
+
+The information can be incomplete and can come from multiple sources and directions in the network. The cell can ask its propagators to search for more information about the value until the value is known.
+
+### 2.3.1 Why don't cells store values?
+
+The article gives one example why: It would force the language designer to make an arbitrary choice about what to do when a propagator tries to store a value in a non-empty cell that is different from the current value, and this choice could specialize the system to some purpose that might be incompatible with the way other propagation systems work.
