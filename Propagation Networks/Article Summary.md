@@ -55,3 +55,21 @@ The information can be incomplete and can come from multiple sources and directi
 ### 2.3.1 Why don't cells store values?
 
 The article gives one example why: It would force the language designer to make an arbitrary choice about what to do when a propagator tries to store a value in a non-empty cell that is different from the current value, and this choice could specialize the system to some purpose that might be incompatible with the way other propagation systems work.
+
+### 2.3.2 Because trying to store values causes trouble
+
+3 things could be done if the cell already had a value when a propagator tries do fill in another value:
+
+1. Ignore the new value: This is bad because it would make constraint systems not work.
+2. Overwrite the value in the cell: This is bad because it can cause infinite loops
+3. Forbid it. Throw an error: This is bad because it would just delay the problem of needing to choose between options 1 or 2.
+
+Solving this with an equality test would also be an arbitrary decision and be incompatible with constraint satisfaction by domain reduction and functional reactive programming.
+
+### 2.3.3 And accumulating information is better
+
+A better approach is to make cells accumulate every information they know about a value, never forgetting this information or replacing it. This would solve the problems stated in the previous section and is crucial for liberating us from the constraints of time.
+
+This idea makes propagation a core mechanism that can be separated from other concerns such as equality and truth maintenance systems, which could be added later, having a common propagation language, which would allow them to interoperate, which would lead to a higher level of expressiveness.
+
+# Chapter 3: Core Implementation
