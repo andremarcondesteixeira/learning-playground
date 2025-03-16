@@ -71,7 +71,7 @@ The article gives one example why: It would force the language designer to make 
 
 3 things could be done if the cell already had a value when a propagator tries do fill in another value:
 
-1. Ignore the new value: This is bad because it would make constraint systems not work.
+1. Ignore the new value: This is bad because it would break Constraint Satisfaction systems.
 2. Overwrite the value in the cell: This is bad because it can cause infinite loops
 3. Forbid it. Throw an error: This is bad because it would just delay the problem of needing to choose between options 1 or 2.
 
