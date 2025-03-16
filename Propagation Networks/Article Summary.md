@@ -38,7 +38,17 @@ General purpose propagation generalizes expressions (much like expressions gener
 
 Computation is arranged as a network of Propagators connected through Cells.
 
-Propagators make computations and propagate data to the netowrk through Cells.
+Propagators are stateless machines that make computations and propagate data to the netowrk through Cells.
 
-Cells store data received from Propagators.
+Propagators are asynchronous, autonomous and always-on (always ready to perform their respective computations). These properties allow to remove time restrictinos because they allow propagators to always do their computations whenever they want.
 
+Cells are stateful: they store data received from Propagators. They are responsible for maintaining their own internal memory consistent and free from invalid and corrupted states. Global consistency should be an emergent property of the network.
+
+```
+propagator x sends to f
+propagator y sends to f
+cell f
+propagator f(x, y) listens to f sends to g, h
+cell g
+cell h
+```
