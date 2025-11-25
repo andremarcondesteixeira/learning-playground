@@ -38,9 +38,20 @@ General purpose propagation generalizes expressions (much like expressions gener
 
 Computation is arranged as a network of Propagators connected through Cells.
 
-Propagators make computations and propagate data to the netowrk through Cells, by storing and reading data into and from Cells.
+Propagators are stateless machines that make computations and propagate data to the netowrk through Cells.
 
-Cells store data received from Propagators. Cells are responsible for keeping their own internal state consistent.
+Propagators are asynchronous, autonomous and always-on (always ready to perform their respective computations). These properties allow to remove time restrictinos because they allow propagators to always do their computations whenever they want.
+
+Cells are stateful: they store data received from Propagators. They are responsible for maintaining their own internal memory consistent and free from invalid and corrupted states. Global consistency should be an emergent property of the network.
+
+```
+propagator x sends to f
+propagator y sends to f
+cell f
+propagator f(x, y) listens to f sends to g, h
+cell g
+cell h
+```
 
 ## 2.2 We Simulate the Network until Quiescence
 
@@ -60,7 +71,7 @@ The article gives one example why: It would force the language designer to make 
 
 3 things could be done if the cell already had a value when a propagator tries do fill in another value:
 
-1. Ignore the new value: This is bad because it would make constraint systems not work.
+1. Ignore the new value: This is bad because it would break Constraint Satisfaction systems.
 2. Overwrite the value in the cell: This is bad because it can cause infinite loops
 3. Forbid it. Throw an error: This is bad because it would just delay the problem of needing to choose between options 1 or 2.
 
