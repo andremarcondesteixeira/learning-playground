@@ -65,10 +65,13 @@ class GamePage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
+        mainAxisAlignment: .center,
+        mainAxisSize: .min,
         spacing: 5.0,
         children: [
           for (final guess in _game.guesses)
             Row(
+              mainAxisAlignment: .center,
               spacing: 5.0,
               children: [
                 for (final letter in guess) Tile(letter.char, letter.type),
